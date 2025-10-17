@@ -1,5 +1,8 @@
 @import "tailwindcss";
+*, *::after, *::before {
+    box-sizing: border-box;
+}
 body {
-    background-color: #330C2F;
+    background-color:#1f2948;
     font-family: "Inter", sans-serif;
 }
