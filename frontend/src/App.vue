@@ -6,6 +6,7 @@
   function hello(){
        showLoginForm.value = !showLoginForm.value
   }
+  import Crypto from './components/Crypto.vue';
 </script>
 
 <template>
@@ -18,8 +19,9 @@
     </div>
   </header>
 
-  <main class="flex-1 flex items-center py-2">
+  <main class="flex-1 flex items-center py-2 justify-center">
     <p v-if="showLoginForm" class="text-white font-bold mx-auto">Logowanie</p>
+    <Crypto crypto-name="Bitcoin" />
   </main>
 </template>
 
@@ -49,13 +51,13 @@ header p {
   align-self: center;
 }
 .title {
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, 8vw, 1.8rem);
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 .name {
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: clamp(0.8rem, 4vw, 1.2rem);
 }
 </style>
