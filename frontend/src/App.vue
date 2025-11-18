@@ -1,32 +1,39 @@
 <script setup>
-   import { ref } from 'vue';
-  const title =  ref("Crypto wallet")
-  const name = ref("Mateusz Ruczaj")
-  const showLoginForm = ref(false)
-  function hello(){
-       showLoginForm.value = !showLoginForm.value
-  }
-  import Crypto from './components/Crypto.vue';
+import { ref } from "vue";
+const title = ref("Crypto wallet");
+const name = ref("Mateusz Ruczaj");
+const showLoginForm = ref(false);
+const showCryptoForm = ref(false);
+function hello() {
+  showLoginForm.value = !showLoginForm.value;
+}
+function handleShowCryptoForm() {
+  showCryptoForm.value = true;
+}
+import Crypto from "./components/Crypto.vue";
+import Button from "./components/Button.vue";
+import CryptoForm from "./components/CryptoForm.vue";
 </script>
 
 <template>
   <header>
-    <p class="title">{{ title }}</p>  
+    <p class="title">{{ title }}</p>
     <div class="flex items-center justify-between max-md:w-full gap-5">
       <p class="name">Witaj, {{ name }}</p>
-    <button class="px-12 py-2 bg-[#1f2948] hover:bg-[#28355c] hover:cursor-pointer hover:-translate-y-0.5 transition-all duration-150 rounded-xl text-white hover:shadow-amber-200 hover:shadow-md" @click="hello">Zaloguj</button>
-  
+      <Button text="Zaloguj" @action="hello" />
     </div>
   </header>
 
-  <main class="flex-1 flex items-center py-2 justify-center">
+  <main class="flex-1 flex items-center py-2 justify-center flex-col gap-2">
     <p v-if="showLoginForm" class="text-white font-bold mx-auto">Logowanie</p>
     <Crypto crypto-name="Bitcoin" />
+
+    <Button text="Dodaj nową kryptowalutę" @action="handleShowCryptoForm" />
+    <CryptoForm v-if="showCryptoForm" />
   </main>
 </template>
 
 <style scoped>
- 
 header {
   display: flex;
   justify-content: space-between;
@@ -37,8 +44,8 @@ header {
   background-color: #151d32;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-@media (max-width: 768px){
-  header{
+@media (max-width: 768px) {
+  header {
     flex-direction: column;
     align-items: start;
     gap: 2rem;
