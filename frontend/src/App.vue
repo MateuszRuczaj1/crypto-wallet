@@ -2,17 +2,44 @@
 import { ref } from "vue";
 const title = ref("Crypto wallet");
 const name = ref("Mateusz Ruczaj");
+const cryptoValues = ref([])
 const showLoginForm = ref(false);
 const showCryptoForm = ref(false);
+const showCryptoList = ref(true)
 function hello() {
   showLoginForm.value = !showLoginForm.value;
 }
 function handleShowCryptoForm() {
   showCryptoForm.value = true;
 }
+function handleToggleCryptoList(){
+    showCryptoList.value = !showCryptoList.value
+}
+function handleAddNewCrypto(cryptoName){
+  console.log(cryptoName)
+  cryptoValues.value.push(cryptoName)
+  
+}
+function handleAddNewCryptoToLocalStorage(cryptoName){
+  const items = JSON.parse(localStorage.getItem("cryptoValues") || "[]")
+  items.push(cryptoName)
+  localStorage.setItem("cryptoValues", JSON.stringify(items))
+}
+function handleGetItemsFromLocalStorage(){
+  const items = JSON.parse(localStorage.getItem("cryptoValues"))
+  if(items){
+    console.log(items)
+    cryptoValues.value.push(items)
+  }
+  else{
+    alert("Brak danych w localStorage")
+  }
+  localStorage.removeItem("cryptoValues")
+}
 import Crypto from "./components/Crypto.vue";
-import Button from "./components/Button.vue";
 import CryptoForm from "./components/CryptoForm.vue";
+import Button from "./components/Button.vue";
+console.log(cryptoValues.value)
 </script>
 
 <template>
@@ -29,7 +56,23 @@ import CryptoForm from "./components/CryptoForm.vue";
     <Crypto crypto-name="Bitcoin" />
 
     <Button text="Dodaj nową kryptowalutę" @action="handleShowCryptoForm" />
-    <CryptoForm v-if="showCryptoForm" />
+    <CryptoForm v-if="showCryptoForm" @onsubmit = "handleAddNewCrypto" @onlocalstorage="handleAddNewCryptoToLocalStorage" />
+    <div v-show="showCryptoList">
+      <ul>
+      <li v-for="(value,index) in cryptoValues" :key="index">
+       <Crypto :crypto-name="value" />
+      </li>
+       
+    </ul>
+      <p class="my-10">
+        <Button text="Ukryj listę" @action="handleToggleCryptoList" v-if="showCryptoList" />
+        
+      </p>
+    </div>
+    <div class="my-15">
+          <Button text="Pokaż listę" @action="handleToggleCryptoList" v-if="!showCryptoList" />
+    <Button text="Pobierz waluty z localStorage" @action="handleGetItemsFromLocalStorage"/>
+    </div>
   </main>
 </template>
 
