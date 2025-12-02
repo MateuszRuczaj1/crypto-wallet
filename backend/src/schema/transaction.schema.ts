@@ -20,3 +20,4 @@ export class Transaction{
   @Prop()
   transactionPrice: number
 }
+export const TransactionSchema = SchemaFactory.createForClass(Transaction)
