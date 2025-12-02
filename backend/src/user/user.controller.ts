@@ -1,4 +1,4 @@
-import { Controller, Body, Req, Res, Post, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Body, Req, Res, Post, HttpStatus, Param, Get } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UserService } from './user.service';
 import { response } from 'express';
@@ -18,6 +18,18 @@ export class UserController {
                 message:"Error: Użytkownik nie został utworzony",
                 error:"Bad request"
             })
+        }
+    }
+    @Get()
+    async getAllUsers(@Res() response){
+        try {
+            const users = this.userService.getAllUsers()
+            return response.status(HttpStatus.OK).json({
+                message:"Pobrano dane użytkowników",
+                users
+            })
+        } catch (error) {
+            return response.status(error.status).json(error.response);
         }
     }
 }
