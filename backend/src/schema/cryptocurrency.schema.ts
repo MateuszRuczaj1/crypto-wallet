@@ -10,3 +10,4 @@ export class CryptoCurrency{
    @Prop()
    lastUpdated: Date;
 }
+export const CryptoCurrencySchema = SchemaFactory.createForClass(CryptoCurrency)
